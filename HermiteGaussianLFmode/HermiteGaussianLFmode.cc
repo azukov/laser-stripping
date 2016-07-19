@@ -100,10 +100,12 @@ double b=sqrt(n_Hx*n_Hx+n_Hy*n_Hy+n_Hz*n_Hz);
 
 void HermiteGaussianLFmode::setLocalParameters(double rx, double ry, double ax, double ay)	{
 	
-	fx=-ax*rx*rx*rx/(4/(k*k)+ax*ax*rx*rx);
-	fy=-ay*ry*ry*ry/(4/(k*k)+ay*ay*ry*ry);
-	wx=2*rx/(k*sqrt(4/(k*k)+ax*ax*rx*rx));
-	wy=2*ry/(k*sqrt(4/(k*k)+ay*ay*ry*ry));
+    
+	fx=-4*k*k*ax*rx*rx*rx/(1+4*ax*ax*rx*rx*k*k);
+	fy=-4*k*k*ay*ry*ry*ry/(1+4*ay*ay*ry*ry*k*k);
+        
+	wx=2*rx/sqrt(1+4*ax*ax*rx*rx*k*k);
+	wy=2*ry/sqrt(1+4*ay*ay*ry*ry*k*k);
 	
 	int n=n_moda;
 	int m=m_moda;
