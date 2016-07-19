@@ -108,7 +108,7 @@ void Walls::setupEffects(Bunch* bunch){
 
 
 
-void Walls::memorizeInitParams(Bunch* bunch){
+void Walls::prepareEffects(Bunch* bunch, double t){
 	
 	for (int i=0; i<bunch->getSize();i++)		{
 		x0(i)=bunch->coordArr()[i][0];

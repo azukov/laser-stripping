@@ -53,7 +53,7 @@ RecordEvolution::RecordEvolution(std::string effect,int ind_effect, int num)
 	
 
 	setRankSetup(1);
-	setRankMemorize(1);
+	setRankPrepare(1);
 	setRankFinalize(1);
 	setRankApply(1);
 

@@ -24,7 +24,7 @@ using namespace OrbitUtils;
 PrintExtEffects::PrintExtEffects(std::string name,int i,std::string addr)
 {
 	setRankSetup(1);
-	setRankMemorize(1);
+	setRankPrepare(1);
 	setRankFinalize(1);
 	setRankApply(1);
 	
