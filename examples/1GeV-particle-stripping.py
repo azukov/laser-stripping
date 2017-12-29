@@ -106,7 +106,3 @@ tracker.track(b,0,time_step*n_step, time_step,fS,cont_eff)      # tracking from 
 print b.partAttrValue("Populations",0,1)        # Ground state population after excitation after 
 print b.partAttrValue("Populations",0,2)        # 3rd excited state after excitation
 print b.partAttrValue("Populations",0,1) + b.partAttrValue("Populations",0,2)   #sum after excitation must be equal 1 for "TwoLevelAtom" model 
-
-
-sys.exit()
-
