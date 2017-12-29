@@ -1,4 +1,4 @@
-include ../../conf/make_root_config
+include $(ORBIT_ROOT)/conf/make_ext_config
 
 DIRS  = $(patsubst %/, %, $(filter-out obj/,$(filter %/,$(shell ls -F))))
 SRCS  = $(wildcard *.cc)
@@ -7,10 +7,10 @@ SRCS += $(foreach dir,$(DIRS),$(patsubst $(dir)/%.cc,%.cc,$(wildcard $(dir)/*.cc
 OBJS = $(patsubst %.cc,./obj/%.o,$(SRCS))
 
 #include files could be everywhere, we use only two levels
-UPPER_DIRS = $(filter-out test%,$(patsubst %/, %,$(filter %/,$(shell ls -F ../../src))))
-LOWER_DIRS = $(foreach dir,$(UPPER_DIRS),$(patsubst %/, ../../src/$(dir)/%,$(filter %/,$(shell ls -F ../../src/$(dir)))))
+UPPER_DIRS = $(filter-out test%,$(patsubst %/, %,$(filter %/,$(shell ls -F $(ORBIT_ROOT)/src))))
+LOWER_DIRS = $(foreach dir,$(UPPER_DIRS),$(patsubst %/, $(ORBIT_ROOT)/src/$(dir)/%,$(filter %/,$(shell ls -F $(ORBIT_ROOT)/src/$(dir)))))
 
-INCLUDES_LOCAL = $(patsubst %, -I../../src/%, $(UPPER_DIRS))
+INCLUDES_LOCAL = $(patsubst %, -I$(ORBIT_ROOT)/src/%, $(UPPER_DIRS))
 INCLUDES_LOCAL += $(filter-out %obj,$(patsubst %, -I%, $(LOWER_DIRS)))
 INCLUDES_LOCAL += $(patsubst %, -I./%, $(filter %/,$(shell ls -F ./)))
 INCLUDES_LOCAL += -I./
@@ -24,17 +24,17 @@ INC += $(foreach dir,$(DIRS),$(wildcard ./$(dir)/*.h))
 WRAPPER_FLAGS = -fno-strict-aliasing
 
 #CXXFLAGS
-CXXFLAGS += -fPIC
+CXXFLAGS += -fPIC 
 
 #shared library flags
-SHARED_LIB = -shared
+# SHARED_LIB = -shared -undefined dynamic_lookup
 
 #tracker shared library
 lstripping_lib = laserstripping.so
 
 #========rules=========================
 compile: $(OBJS_WRAP) $(OBJS) $(INC)
-	$(CXX) -fPIC $(SHARED_LIB) $(LINKFLAGS) -o ../../lib/$(lstripping_lib) $(OBJS)
+	$(CXX)  $(LINKFLAGS) -o $(ORBIT_ROOT)/lib/$(lstripping_lib) $(OBJS)
 
 ./obj/wrap_%.o : wrap_%.cc $(INC)
 	$(CXX) $(CXXFLAGS) $(WRAPPER_FLAGS) $(INCLUDES_LOCAL) $(INCLUDES) -c $< -o $@;
@@ -51,5 +51,5 @@ compile: $(OBJS_WRAP) $(OBJS) $(INC)
 clean:
 	rm -rf ./obj/*.o
 	rm -rf ./obj/*.os
-	rm -rf ../../lib/$(lstripping_lib)
+	rm -rf $(ORBIT_ROOT)/lib/$(lstripping_lib)
 
